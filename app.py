@@ -71,7 +71,7 @@ st.markdown("""
         width: 100% !important;
     }
     
-    /* Estilo estético de los botones (ancho adaptativo y no gigante) */
+    /* Estilo estético de los botones */
     .stButton>button, .stDownloadButton>button {
         background-color: #ff4d94 !important;
         color: white !important;
@@ -85,7 +85,7 @@ st.markdown("""
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
     }
     
-    /* Efecto al pasar el mouse sobre el botón (se vuelve negro) */
+    /* Efecto al pasar el mouse sobre el botón */
     .stButton>button:hover, .stDownloadButton>button:hover {
         background-color: #000000 !important;
         color: white !important;
@@ -132,7 +132,7 @@ if boton_presionado:
     else:
         with st.spinner("Pérate... 🪄 extrayendo la rolita..."):
             try:
-                # Motor de descarga con Trucos Anti-Bloqueo para la nube
+                # Motor de descarga con Trucos Anti-Bloqueo Nivel Dios
                 opciones = {
                     'format': 'bestaudio/best',
                     'postprocessors': [{
@@ -143,10 +143,14 @@ if boton_presionado:
                     'outtmpl': '%(title)s.%(ext)s', 
                     'noplaylist': True,
                     'quiet': True, 
-                    # --- NUEVOS TRUCOS ---
-                    'extractor_args': {'youtube': {'player_client': ['android', 'web']}}, # Nos disfrazamos de celular
-                    'nocheckcertificate': True, # Evitamos problemas de seguridad del servidor
-                    'geo_bypass': True, # Saltamos restricciones de país
+                    # --- MODO STEALTH ---
+                    'extractor_args': {'youtube': {'player_client': ['android', 'ios']}}, 
+                    'nocheckcertificate': True, 
+                    'geo_bypass': True,
+                    'http_headers': {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                        'Accept-Language': 'es-ES,es;q=0.9',
+                    }
                 }
 
                 # Ejecutamos la descarga y conversión
@@ -177,7 +181,7 @@ if boton_presionado:
                     pass
                     
             except Exception as e:
-                # --- NUEVO MANEJO DE ERRORES PARA DEPURACIÓN ---
+                # Manejo de errores detallado
                 st.error("💥 ¡Pucha, ocurrió un error rarazo al procesar el audio!")
                 st.error(f"🛠️ DETALLE TÉCNICO PARA EL INGENIERO: {str(e)}")
-                st.info("Nota: Si el error dice 'HTTP Error 403' o 'Sign in', YouTube está bloqueando la IP de la nube.")
+                st.info("Nota: Si el error dice 'HTTP Error 403' o 'Sign in', YouTube está bloqueando la IP de la nube. Pruébalo de forma local.")
