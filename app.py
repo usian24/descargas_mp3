@@ -181,10 +181,7 @@ if boton_presionado:
                     # Extraemos el nombre de la canción para mostrarlo
                     titulo_cancion = info.get('title', 'Audio Desconocido')
 
-                # Efecto visual de celebración
-                st.balloons()
-                
-                # Mostramos el nombre de la canción de forma destacada
+                # Mostramos el nombre de la canción de forma destacada (sin animación)
                 st.markdown(f"<div class='nombre-cancion'>🎵 Lista para guardar:<br>{titulo_cancion}</div>", unsafe_allow_html=True)
                 
                 # Leemos el archivo MP3
