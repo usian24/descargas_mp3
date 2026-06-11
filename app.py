@@ -132,7 +132,7 @@ if boton_presionado:
     else:
         with st.spinner("Pérate... 🪄 extrayendo la rolita..."):
             try:
-                # Motor de descarga optimizado para la nube
+                # Motor de descarga con Trucos Anti-Bloqueo para la nube
                 opciones = {
                     'format': 'bestaudio/best',
                     'postprocessors': [{
@@ -143,6 +143,10 @@ if boton_presionado:
                     'outtmpl': '%(title)s.%(ext)s', 
                     'noplaylist': True,
                     'quiet': True, 
+                    # --- NUEVOS TRUCOS ---
+                    'extractor_args': {'youtube': {'player_client': ['android', 'web']}}, # Nos disfrazamos de celular
+                    'nocheckcertificate': True, # Evitamos problemas de seguridad del servidor
+                    'geo_bypass': True, # Saltamos restricciones de país
                 }
 
                 # Ejecutamos la descarga y conversión
@@ -154,11 +158,11 @@ if boton_presionado:
                 # Mensaje de celebración
                 st.success("¡La música se descargó, ya ta ya! 🎉")
                 
-                # Leemos el archivo MP3 creado a la memoria RAM del servidor
+                # Leemos el archivo MP3
                 with open(ruta_mp3, "rb") as file:
                     datos_mp3 = file.read()
                 
-                # Botón de descarga final para el usuario
+                # Botón de descarga final
                 st.download_button(
                     label="⬇️ Haz clic aquí para guardar tu MP3",
                     data=datos_mp3,
@@ -166,16 +170,14 @@ if boton_presionado:
                     mime="audio/mpeg"
                 )
                 
-                # Auto-Limpieza: Eliminamos el archivo del servidor para evitar saturación
+                # Auto-Limpieza
                 try:
                     os.remove(ruta_mp3)
                 except Exception:
                     pass
                     
             except Exception as e:
-                mensaje_error = str(e).lower()
-                if "unavailable" in mensaje_error or "private" in mensaje_error:
-                    st.error("🔒 ¡Asu! El video es privado o ya lo borraron. Busca otro link.")
-                else:
-                    st.error("💥 ¡Pucha, ocurrió un error rarazo al procesar el audio!")
-                    st.info("Asegúrate de que el video no tenga restricción de edad y vuelve a intentar.")
+                # --- NUEVO MANEJO DE ERRORES PARA DEPURACIÓN ---
+                st.error("💥 ¡Pucha, ocurrió un error rarazo al procesar el audio!")
+                st.error(f"🛠️ DETALLE TÉCNICO PARA EL INGENIERO: {str(e)}")
+                st.info("Nota: Si el error dice 'HTTP Error 403' o 'Sign in', YouTube está bloqueando la IP de la nube.")
